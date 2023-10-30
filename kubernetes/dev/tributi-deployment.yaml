@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tributi-deployment
+  namespace: impleme-bolite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: tributi-deployment
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        deployment: tributi-deployment
+    spec:
+      affinity: {}
+      containers:
+      - image:  registrycol.comune.messina.it/impleme/anagrafe-tributi:0.0.15-SNAPSHOT
+        imagePullPolicy: Always
+        name: tributi-deployment
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /app/config
+          name: tributi-configmap
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: tributi-configmap
+        name: tributi-configmap

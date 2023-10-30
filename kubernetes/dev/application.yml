@@ -1,0 +1,48 @@
+# Spring Boot configuration
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+  datasource:
+    url: jdbc:postgresql://postgresql-svc.impleme-wso2.svc.cluster.local:5432/impleme-bolite?currentSchema=pagopa
+    platform: postgresql
+    username: bolite
+    password: bolite
+    driverClassName: org.postgresql.Driver
+    open-in-view: false
+    generate-ddl: false
+
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+
+pagopa:
+  url: https://service.pmpay.it/Rest
+
+ljsa:
+  oidc:
+    issuer-key: https://spid-dev.impleme.giottolabs.com:443/oauth2/token
+    roles-key: groups
+    subject-key: sub
+    url-jwk-provider: https://spid-dev.impleme.giottolabs.com/oauth2/jwks
+  profilemanager:
+    enabled: true
+    micro-service-id: f40ec9f1-8474-4b10-b033-d4e9d5ee16af
+    security:
+      plaintext: true
+    contact-point: profile-manager-service.ljsa:9090
+  ssl-validation: false
+  skip-urls: /v2/enti,/v2/enti/**/tributi,/v2/enti/**/tributi/**/attributi,/v2/enti/**/tributi/**/tariffe,/v2/enti/*/tributi/*/tipi,/v2/enti/*/tributi/tipi/*/sottotipi
+
+# Server configuration
+server:
+  port: 8080
+  sessionTimeout: 30
